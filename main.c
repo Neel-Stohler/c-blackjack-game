@@ -8,8 +8,8 @@ int main(void)
 {
 
 	//Arrays for 10 cards 
-	int bank_card[10];
-	int player_card[10];
+	int bank_card[12];
+	int player_card[12];
 
 	//Randon number generator
 	srand(time(NULL));
@@ -38,13 +38,20 @@ int main(void)
 	do
 	{
 
-	  choice = get_char("\n Hit (h) or Stand (s)? ");
+	  choice = get_char("\nHit (h) or Stand (s)? ");
                 printf("\n");
 
-		if (choice == 'h')
+          	
+		if (choice != 'h' && choice != 's')
+                {
+                        printf("Invalid input, please enter Hit (h) or Stand (s)"); 
+                }
+
+		else if (choice == 'h')
 		{
-			//Bank
-			printf("Bank:\n\n Card 1: %i\n Card 2: ?\n Sum: %i + ?\n\n\n", bank_card[0], bank_card[0]);
+
+	               //Bank
+        	        printf("Bank:\n\n Card 1: %i\n Card 2: ?\n Sum: %i + ?\n\n\n", bank_card[0], bank_card[0]);
 
 			//Player Hit
 			player_card[player_count] = (rand() % 10) + 2;
@@ -123,15 +130,7 @@ int main(void)
 
 		}
 	}
-	while(choice != 's' && player_sum < 21);
-
-
-
-
-
-
-
-
+	while(choice != 's' && player_sum <= 21);
 
 
 
@@ -143,4 +142,3 @@ int main(void)
 
 
 }
-
