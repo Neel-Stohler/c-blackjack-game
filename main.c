@@ -41,7 +41,7 @@ int main(void)
 	  choice = get_char("\nHit (h) or Stand (s)? ");
                 printf("\n");
 
-          	
+          	//Invalid input
 		if (choice != 'h' && choice != 's')
                 {
                         printf("Invalid input, please enter Hit (h) or Stand (s)"); 
@@ -81,17 +81,18 @@ int main(void)
 				bank_card[bank_count] = (rand() % 10) + 2;
 				bank_sum += bank_card[bank_count];
 				bank_count++;
-
-				printf("Bank:\n\n");
-
- 	                      	for (int i = 0; i < bank_count; i++)
-        	                {
-         	                       printf(" Card %i: %i\n", i + 1, bank_card[i]);
-				}
-		                printf(" Sum: %i\n\n\n", bank_sum);
 			}
-			//Player
-			printf("Player:\n\n");
+
+                        printf("Bank:\n\n");
+
+                        for (int i = 0; i < bank_count; i++)
+                        {
+                        	printf(" Card %i: %i\n", i + 1, bank_card[i]);
+                        }
+                                printf(" Sum: %i\n\n", bank_sum);
+
+		       //Player
+                        printf("Player:\n\n");
 
                         for (int i = 0; i < player_count; i++)
                         {
@@ -99,46 +100,35 @@ int main(void)
                         }
                         printf(" Sum: %i\n\n\n", player_sum);
 
-
-		      //If bank is over 21
+                      //If bank is over 21
                         if (bank_sum > 21)
-			{
+                        {
                                 printf("\nYou Win, the bank busted!\n\n");
                                 break;
 
-			}
-				//If it results a tie
-				else if (bank_sum == player_sum)
-				{
-					printf("\nResults: \n\n");
+                        }
+                                //If it results a tie
+                                else if (bank_sum == player_sum)
+                                {
+                                        printf("\nResults: \n\n");
                                         printf("PUSH! Both have %i!\n\n", bank_sum);
-				}
+                                }
 
-				//Bank wins
-				else if (bank_sum > player_sum)
-				{
-					printf("\nResults: \n\n");
-					printf("You Lost, the bank has %i!\n\n", bank_sum);
-				}
+                                //Bank wins
+                                else if (bank_sum > player_sum)
+                                {
+                                        printf("Results: \n\n");
+                                        printf("You Lost, the bank has %i!\n\n", bank_sum);
+                                }
 
-				//Player wins
-				else if (player_sum > bank_sum)
-				{
-					printf("\nResults: \n\n");
-                        	        printf("You Won, the bank has %i!\n\n", bank_sum);
-				}
-
+                                //Player wins
+                                else if (player_sum > bank_sum)
+                                {
+                                        printf("\nResults: \n\n");
+                                        printf("You Won, the bank has %i!\n\n", bank_sum);
+                                }
 		}
 	}
-	while(choice != 's' && player_sum <= 21);
-
-
-
-
-
-
-
-
-
+	    while(choice != 's' && player_sum <= 21);
 
 }
