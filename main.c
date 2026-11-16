@@ -59,12 +59,10 @@ void check_aces(int cards[], int count, int *sum)
 	while(*sum > 21 && ace_count > 0);
 }
 
-//Shuffel cards basis
-srand(time(NULL));
-
-
 int main(void)
 {
+	//Shuffel cards basis
+	srand(time(NULL));
 
 	//All cards array
 	int deck[52];
