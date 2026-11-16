@@ -59,11 +59,12 @@ void check_aces(int cards[], int count, int *sum)
 	while(*sum > 21 && ace_count > 0);
 }
 
+//Shuffel cards basis
+srand(time(NULL));
+
+
 int main(void)
 {
-
-	//Shuffel cards basis
-	srand(time(NULL));
 
 	//All cards array
 	int deck[52];
@@ -81,9 +82,6 @@ int main(void)
 	//Arrays for 10 cards
 	int bank_card[12];
 	int player_card[12];
-
-	//Randon number generator
-	srand(time(NULL));
 
 	//Save the count of cards and the sum
 	int bank_count = 2;
@@ -161,29 +159,8 @@ int main(void)
         deck [j] = temp;
         }
 
-	//draw cards (value)
+	//Reset deck position
 	deck_position = 0;
-
-	for (int i = 0; i < 2; i++)
-        {
-		//Bank
-                bank_card[bank_count] = deck[deck_position];
-                deck_position++;
-
-		bank_sum += bank_card[bank_count];
-		bank_count++;
-
-		check_aces(bank_card, bank_count, &bank_sum);
-
-		//Player
-                player_card[player_count] = deck[deck_position];
-                deck_position++;
-
-		player_sum += player_card[player_count];
-		player_count++;
-
-		check_aces(player_card, player_count, &player_sum);
-        }
 
 	//set everything to 0
      	for (int i = 0; i < 12; i++)
@@ -209,6 +186,9 @@ int main(void)
 
 	bank_sum = bank_card[0] + bank_card[1];
         player_sum = player_card[0] + player_card[1];
+
+	check_aces(bank_card, bank_count, &bank_sum);
+	check_aces(player_card, player_count, &player_sum);
 
 	//Bet
 	do
