@@ -29,8 +29,47 @@ void print_results(int bank_card[],int bank_count,int bank_sum, int player_card[
         }
 }
 
+//Check for aces
+void check_aces(int cards[], int count, int *sum)
+{
+	int ace_count = 0;
+
+	for (int i = 0; i < count; i++)
+	{
+	        if (cards[i] == 11)
+	        {
+	                ace_count++;
+		}
+	}
+
+	//Turn aces value to 1
+	do
+	{
+		for (int i = 0; i < count; i++)
+		{
+		        if (cards[i] == 11 && *sum > 21)
+		      	{
+				cards[i] = 1;
+		                ace_count--;
+		                *sum -= 10;
+		                break;
+		        }
+		}
+	}
+	while(*sum > 21 && ace_count > 0);
+}
+
 int main(void)
 {
+
+	//Shuffel cards basis
+	srand(time(NULL));
+
+	//All cards array
+	int deck[52];
+
+	//draw cards
+	int deck_position = 0;
 
 	//Money
 	int money = 1000;
@@ -49,18 +88,9 @@ int main(void)
 	//Save the count of cards and the sum
 	int bank_count = 2;
 	int player_count = 2;
-	int bank_sum = bank_card[0] + bank_card[1];
-	int player_sum = player_card[0] + player_card [1];
 
-	//Show hand
-	void print_hand(int cards[], int count)
-	{
-		for (int i = 0; i < count; i++)
-		{
-			printf(" Card %i: %i\n", i + 1, cards[i]);
-
-		}
-	}
+	int bank_sum = 0;
+	int player_sum = 0;
 
 	//Start
 	printf("\n================================================================================");
@@ -71,6 +101,90 @@ int main(void)
 	while (money > 0)
 	{
 
+	//52 cards deck
+	for (int i = 0; i < 4; i++)
+        {
+                deck[i] = 2;
+        }
+
+        for (int i = 4; i < 8; i++)
+        {
+                deck[i] = 3;
+        }
+
+        for (int i = 8; i < 12; i++)
+        {
+                deck[i] = 4;
+        }
+
+        for (int i = 12; i < 16; i++)
+        {
+                deck[i] = 5;
+        }
+
+        for (int i = 16; i < 20; i++)
+        {
+                deck[i] = 6;
+        }
+
+        for (int i = 20; i < 24; i++)
+        {
+                deck[i] = 7;
+        }
+
+        for (int i = 24; i < 28; i++)
+        {
+                deck[i] = 8;
+        }
+
+        for (int i = 28; i < 32; i++)
+        {
+                deck[i] = 9;
+        }
+
+        for (int i = 32; i < 48; i++)
+        {
+                deck[i] = 10;
+        }
+        for (int i = 48; i < 52; i++)
+        {
+                deck[i] = 11;
+        }
+
+	//Shuffel cards
+        for (int i = 51; i > 0; i--)
+        {
+        int j = rand() % (i + 1);
+
+        int temp = deck[i];
+        deck[i] = deck[j];
+        deck [j] = temp;
+        }
+
+	//draw cards (value)
+	deck_position = 0;
+
+	for (int i = 0; i < 2; i++)
+        {
+		//Bank
+                bank_card[bank_count] = deck[deck_position];
+                deck_position++;
+
+		bank_sum += bank_card[bank_count];
+		bank_count++;
+
+		check_aces(bank_card, bank_count, &bank_sum);
+
+		//Player
+                player_card[player_count] = deck[deck_position];
+                deck_position++;
+
+		player_sum += player_card[player_count];
+		player_count++;
+
+		check_aces(player_card, player_count, &player_sum);
+        }
+
 	//set everything to 0
      	for (int i = 0; i < 12; i++)
         {
@@ -79,11 +193,11 @@ int main(void)
         }
 
        //Karten (Werte)
-        bank_card[0] = (rand() % 10) + 2;
-        bank_card[1] = (rand() % 10) + 2;
-
-        player_card[0] = (rand() % 10) + 2;
-        player_card[1] = (rand() % 10) + 2;
+        for (int i = 0; i < 2; i++)
+	{
+    		bank_card[i] = deck[deck_position++];
+    		player_card[i] = deck[deck_position++];
+	}
 
 	player_count = 2;
 	bank_count = 2;
@@ -97,6 +211,7 @@ int main(void)
         player_sum = player_card[0] + player_card[1];
 
 	//Bet
+	do
 	{
 		printf("\n                                    NEW ROUND\n\n");
 		printf("Balance: %i $\n", money);
@@ -122,8 +237,8 @@ int main(void)
 		//If it results a tie
 		if (bank_card[0] + bank_card[1] == 21)
                 {
-			print_results(bank_card, bank_count, bank_sum, player_card, player_count, player_sum);
 			printf("--------------------------------------------------------------------------------");
+			print_results(bank_card, bank_count, bank_sum, player_card, player_count, player_sum);
                 	printf("Push, you both have %i\n\n", bank_sum);
 			winner = 3;
 		}
@@ -131,8 +246,8 @@ int main(void)
 		//Player wins
 		else
             	{
-                	print_results(bank_card, bank_count, bank_sum, player_card, player_count, player_sum);
-			printf("--------------------------------------------------------------------------------");
+                	printf("--------------------------------------------------------------------------------");
+			print_results(bank_card, bank_count, bank_sum, player_card, player_count, player_sum);
 			printf("You Won, the bank has %i!\n\n", bank_sum);
              		winner = 2;
 		}
@@ -140,8 +255,8 @@ int main(void)
 	//Bank Blackjack
 	else if (bank_card[0] + bank_card[1] == 21)
 	{
-                print_results(bank_card, bank_count, bank_sum, player_card, player_count, player_sum);
 		printf("--------------------------------------------------------------------------------");
+                print_results(bank_card, bank_count, bank_sum, player_card, player_count, player_sum);
                 printf("You Lost, the bank has Blackjack!\n\n");
 		winner = 1;
 	}
@@ -166,9 +281,13 @@ int main(void)
 				printf("Bank:\n\n Card 1: %i\n Card 2: ?\n Sum: %i + ?\n\n\n", bank_card[0], bank_card[0]);
 
 				//Player Hit
-				player_card[player_count] = (rand() % 10) + 2;
+				player_card[player_count] = deck[deck_position];
+		                deck_position++;
+
 				player_sum += player_card[player_count];
 				player_count++;
+
+				check_aces(player_card, player_count, &player_sum);
 
 				//show player
 				printf("Player:\n\n");
@@ -209,9 +328,15 @@ int main(void)
 		//Bank sum
 	      	while (bank_sum < 17)
 		{
-	                bank_card[bank_count] = (rand() % 10) + 2;
-	               	bank_sum += bank_card[bank_count];
-	                bank_count++;
+
+                bank_card[bank_count] = deck[deck_position];
+                deck_position++;
+
+		bank_sum += bank_card[bank_count];
+		bank_count++;
+
+		check_aces(bank_card, bank_count, &bank_sum);
+
 		}
 		//Show bank and player
 		print_results(bank_card, bank_count, bank_sum, player_card, player_count, player_sum);
