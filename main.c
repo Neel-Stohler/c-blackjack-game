@@ -227,7 +227,7 @@ int main(void)
                 	printf("--------------------------------------------------------------------------------");
 			print_results(bank_card, bank_count, bank_sum, player_card, player_count, player_sum);
 			printf("You Won, the bank has %i!\n\n", bank_sum);
-             		winner = 2;
+             		winner = 4;
 		}
 	}
 	//Bank Blackjack
@@ -366,6 +366,7 @@ int main(void)
 		printf("Loss: -%i $\n", bet);
 		printf("Balance: %i $\n\n", money);
 	}
+
 	//Player wins
 	else if (winner == 2)
 	{
@@ -373,6 +374,7 @@ int main(void)
 		money += bet * 2;
 		printf("Balance: %i $\n\n", money);
 	}
+
 	//Push
 	else if (winner == 3)
 	{
@@ -381,11 +383,28 @@ int main(void)
 		printf("Balance: %i $\n\n", money);
 	}
 
+	//Blackjack
+	else if (winner == 4)
+	{
+		printf("Profit: +%i $\n", bet * 2);
+                money += bet * 2.5;
+                printf("Balance: %i $\n\n", money);
+	}
+
+	//Bankruptcy
+	if (money <= 0)
+	{
+	printf("\n================================================================================");
+        printf("\n                                    BANKRUPTCY\n\n");
+        printf("================================================================================");
+	printf("\n                        You ran out of money, come back soon!\n\n");
+	break;
+	}
+
 	//Round over
 	printf("\n================================================================================");
         printf("\n                                    ROUND OVER\n\n");
         printf("================================================================================");
 
-
-	}
+	}x
 }
